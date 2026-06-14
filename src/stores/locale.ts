@@ -5,6 +5,7 @@ type TranslateParams = Record<string, string | number>;
 
 type IState = {
   locale: ILocale;
+  dir: "rtl" | "ltr";
   setLocale: (locale: ILocale) => void;
   translate: (
     key: keyof (typeof L10nMessages)["en"],
@@ -14,8 +15,11 @@ type IState = {
 
 export const useLocale = create<IState>((set, get) => ({
   locale: "en",
+  dir: "ltr",
 
-  setLocale: (locale) => set({ locale }),
+  setLocale: (locale) => {
+    set({ locale, dir: locale === "ar" ? "rtl" : "ltr" });
+  },
 
   translate: (key, params) => {
     const locale = get().locale;
