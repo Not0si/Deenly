@@ -55,6 +55,16 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./src/assets/fonts/Cairo/Cairo-VariableFont_slnt,wght.ttf",
+            "./src/assets/fonts/Nunito/Nunito-Italic-VariableFont_wght.ttf",
+            "./src/assets/fonts/Nunito/Nunito-VariableFont_wght.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {
