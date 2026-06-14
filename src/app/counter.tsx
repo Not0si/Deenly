@@ -1,5 +1,6 @@
 import { Div } from "@/components/ui/div";
 import { Message } from "@/components/ui/message";
+import { useLocale } from "@/stores/locale";
 import { useTheme } from "@/stores/theme";
 import { useRef, useState } from "react";
 import { Animated, Pressable } from "react-native";
@@ -10,6 +11,7 @@ export default function Counter() {
   const [count, setCount] = useState(0);
   const [incrementDisabled, setIncrementDisabled] = useState(false);
 
+  const translate = useLocale((s) => s.translate);
   const progress = useRef(new Animated.Value(0)).current;
 
   const colors = useTheme((s) => s.colors);
@@ -92,7 +94,7 @@ export default function Counter() {
         />
 
         <Message style={{ textAlign: "center" }}>
-          {incrementDisabled ? "Wait..." : "Increment"}
+          {incrementDisabled ? "Wait..." : translate("1")}
         </Message>
       </Pressable>
     </Div>

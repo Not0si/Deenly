@@ -1,13 +1,13 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Link } from "expo-router";
+import { StyleSheet } from "react-native";
 
-import { Div } from '@/components/ui/div';
-import { Message } from '@/components/ui/message';
+import { Div } from "@/components/ui/div";
+import { Message } from "@/components/ui/message";
 
 export default function ModalScreen() {
   return (
     <Div style={styles.container}>
-      <Message type="title">This is a modal</Message>
+      <Message>This is a modal</Message>
       <Link href="/" dismissTo style={styles.link}>
         <Message type="link">Go to home screen</Message>
       </Link>
@@ -18,8 +18,8 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   link: {

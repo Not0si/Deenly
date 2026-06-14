@@ -40,5 +40,5 @@ async function generateTranslationFiles(inputFile, outputDir) {
 // Usage
 generateTranslationFiles(
   path.join(__dirname, "generator.json"),
-  __dirname,
+  path.join(__dirname, "translations"),
 ).catch(console.error);
