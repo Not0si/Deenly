@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 import { Div } from "@/components/ui/div";
 import { Message } from "@/components/ui/message";
 
