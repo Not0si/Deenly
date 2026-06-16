@@ -12,6 +12,10 @@ interface IPalette {
   bg_surfaceMuted: string;
 
   fg: string;
+  fg_surface: string;
+
+  icon: string;
+  icon_muted: string;
 
   success: string;
   warning: string;
@@ -34,6 +38,10 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
       bg_surfaceMuted: "#E2E8F0", // dividers / subtle blocks
 
       fg: "#023047",
+      fg_surface: "#bdbfc4",
+
+      icon: "#c7c8cd",
+      icon_muted: "#c6c7cc",
 
       success: "#16A34A",
       warning: "#D97706",
@@ -53,7 +61,11 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
       bg_surfaceAlt: "#373A43",
       bg_surfaceMuted: "#27272F",
 
-      fg: "#fafafa",
+      fg: "#d8d9dd",
+      fg_surface: "#bdbfc4",
+
+      icon: "#c7c8cd",
+      icon_muted: "#c6c7cc",
 
       success: "#22C55E",
       warning: "#F59E0B",
@@ -74,6 +86,10 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
       bg_surfaceMuted: "#223A2C",
 
       fg: "#fafafa",
+      fg_surface: "#bdbfc4",
+
+      icon: "#c7c8cd",
+      icon_muted: "#c6c7cc",
 
       success: "#22C55E",
       warning: "#EAB308",
@@ -94,6 +110,10 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
       bg_surfaceMuted: "#FED7AA",
 
       fg: "#2e2e2e",
+      fg_surface: "#bdbfc4",
+
+      icon: "#c7c8cd",
+      icon_muted: "#c6c7cc",
 
       success: "#16A34A",
       warning: "#F59E0B",

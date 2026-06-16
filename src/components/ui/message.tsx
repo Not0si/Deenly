@@ -1,26 +1,27 @@
+import { useLocale } from "@/stores/locale";
 import { useTheme } from "@/stores/theme";
-import { StyleSheet, Text, type TextProps } from "react-native";
+import { Text, type TextProps } from "react-native";
+import { withErrorBoundary } from "./error-boundary";
 
 export type IProps = TextProps & {
-  type?: "default" | "h1" | "h2" | "h3" | "h4" | "p" | "link";
+  type?: "default" | "h1" | "h2" | "h3" | "caption";
 };
 
-// fontFamily: "Nunito" , "Cairo"
-
-export function Message({ style, type = "default", ...rest }: IProps) {
+function Comp({ style, type = "default", ...rest }: IProps) {
   const colors = useTheme((s) => s.colors);
+  const fontFamily = useLocale((s) => s.fontFamily);
+  const typography = useLocale((s) => s.typography);
+  const dir = useLocale((s) => s.dir);
 
   return (
     <Text
       style={[
-        { color: colors.fg, fontFamily: "Nunito" },
-        type === "default" ? styles.default : undefined,
-        type === "h1" ? styles.title : undefined,
-        type === "h2" ? styles.defaultSemiBold : undefined,
-        type === "h3" ? styles.subtitle : undefined,
-        type === "h4" ? styles.subtitle : undefined,
-        type === "p" ? styles.subtitle : undefined,
-        type === "link" ? styles.link : undefined,
+        { color: colors.fg, fontFamily: fontFamily, direction: dir },
+        type === "default" ? typography.bodySmall : undefined,
+        type === "h1" ? typography.h1 : undefined,
+        type === "h2" ? typography.h2 : undefined,
+        type === "h3" ? typography.h3 : undefined,
+        type === "caption" ? typography.caption : undefined,
         style,
       ]}
       {...rest}
@@ -28,28 +29,4 @@ export function Message({ style, type = "default", ...rest }: IProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "600",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    color: "#0a7ea4",
-  },
-});
+export const Message = withErrorBoundary(Comp);

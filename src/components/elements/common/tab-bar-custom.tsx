@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    LayoutChangeEvent,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  LayoutChangeEvent,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { useLocale } from "@/stores/locale";
@@ -188,7 +188,7 @@ function RoutIcon({ name, isFocused }: { name: string; isFocused: boolean }) {
 
   const props = {
     size: 28,
-    color: isFocused ? colors.accent : "#007AFF",
+    color: isFocused ? colors.accent : colors.icon,
     strokeWidth: 2,
   };
 
