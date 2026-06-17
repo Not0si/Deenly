@@ -1,29 +1,29 @@
-import { create } from "zustand";
+import { create } from "zustand"
 
 // #region asd
 
 interface IPalette {
-  accent: string;
+  accent: string
 
-  bg: string;
-  bg_canvas: string;
-  bg_surface: string;
-  bg_surfaceAlt: string;
-  bg_surfaceMuted: string;
+  bg: string
+  bg_canvas: string
+  bg_surface: string
+  bg_surfaceAlt: string
+  bg_surfaceMuted: string
 
-  fg: string;
-  fg_surface: string;
+  fg: string
+  fg_surface: string
 
-  icon: string;
-  icon_muted: string;
+  icon: string
+  icon_muted: string
 
-  success: string;
-  warning: string;
-  error: string;
-  info: string;
+  success: string
+  warning: string
+  error: string
+  info: string
 }
 
-type ITheme = "ocean" | "light" | "sunset" | "forest";
+type ITheme = "ocean" | "light" | "sunset" | "forest"
 
 const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
   light: {
@@ -121,40 +121,40 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
       info: "#EA580C",
     },
   },
-} as const;
+} as const
 
 // #endregion
 
 // #region das
 
 interface IProperties {
-  theme: ITheme;
-  isDark: boolean;
-  colors: IPalette;
+  theme: ITheme
+  isDark: boolean
+  colors: IPalette
 }
 
 const initialState: IProperties = {
   theme: "ocean",
   isDark: palettes.ocean.isDark,
   colors: palettes.ocean.colors,
-};
+}
 
 interface IMethods {
-  onThemeChange: (theme: ITheme) => void;
+  onThemeChange: (theme: ITheme) => void
 }
 
 export const useTheme = create<IProperties & IMethods>((set) => ({
   ...initialState,
 
   onThemeChange: (theme) => {
-    const pickedPalette = palettes[theme];
+    const pickedPalette = palettes[theme]
 
     set({
       theme,
       isDark: pickedPalette.isDark,
       colors: pickedPalette.colors,
-    });
+    })
   },
-}));
+}))
 
 // #endregion

@@ -1,25 +1,31 @@
-import { StyleSheet } from "react-native";
-
-import { Div } from "@/components/ui/div";
-import { Message } from "@/components/ui/message";
+import { Div } from "@/components/ui/div"
+import { Message } from "@/components/ui/message"
+import { Radio } from "@/components/ui/radio"
+import { useState } from "react"
 
 export default function TabTwoScreen() {
-  return (
-    <Div>
-      <Message>adsa</Message>
-    </Div>
-  );
-}
+  const [value, setValue] = useState<string>("opt1")
 
-const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    gap: 8,
-  },
-});
+  return (
+    <Div
+      style={{
+        flex: 1,
+        paddingBottom: 16,
+        paddingTop: 118,
+        paddingHorizontal: 16,
+      }}
+    >
+      <Radio value={value} onChange={setValue}>
+        {Array(3)
+          .fill(0)
+          .map((_, index) => {
+            return (
+              <Radio.Item key={index} value={`opt${index}`}>
+                <Message>{`Option ${index}`}</Message>
+              </Radio.Item>
+            )
+          })}
+      </Radio>
+    </Div>
+  )
+}

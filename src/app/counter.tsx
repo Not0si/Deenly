@@ -1,50 +1,50 @@
-import { Div } from "@/components/ui/div";
-import { Message } from "@/components/ui/message";
-import { useLocale } from "@/stores/locale";
-import { useTheme } from "@/stores/theme";
-import { useRef, useState } from "react";
-import { Animated, Pressable } from "react-native";
+import { Div } from "@/components/ui/div"
+import { Message } from "@/components/ui/message"
+import { useLocale } from "@/stores/locale"
+import { useTheme } from "@/stores/theme"
+import { useRef, useState } from "react"
+import { Animated, Pressable } from "react-native"
 
-const LONG_PRESS_DURATION = 2 * 1000; // 2s
+const LONG_PRESS_DURATION = 2 * 1000 // 2s
 
 export default function Counter() {
-  const [count, setCount] = useState(0);
-  const [incrementDisabled, setIncrementDisabled] = useState(false);
+  const [count, setCount] = useState(0)
+  const [incrementDisabled, setIncrementDisabled] = useState(false)
 
-  const translate = useLocale((s) => s.translate);
-  const progress = useRef(new Animated.Value(0)).current;
+  const translate = useLocale((s) => s.translate)
+  const progress = useRef(new Animated.Value(0)).current
 
-  const colors = useTheme((s) => s.colors);
+  const colors = useTheme((s) => s.colors)
 
   const increment = () => {
-    if (incrementDisabled) return;
+    if (incrementDisabled) return
 
-    setCount((prev) => prev + 1);
-    setIncrementDisabled(true);
+    setCount((prev) => prev + 1)
+    setIncrementDisabled(true)
 
     setTimeout(() => {
-      setIncrementDisabled(false);
-    }, 600);
-  };
+      setIncrementDisabled(false)
+    }, 600)
+  }
 
   const reset = () => {
-    setCount(0);
-  };
+    setCount(0)
+  }
 
   const startLongPressAnimation = () => {
-    progress.setValue(0);
+    progress.setValue(0)
 
     Animated.timing(progress, {
       toValue: 1,
       duration: LONG_PRESS_DURATION,
       useNativeDriver: false,
-    }).start();
-  };
+    }).start()
+  }
 
   const stopLongPressAnimation = () => {
-    progress.stopAnimation();
-    progress.setValue(0);
-  };
+    progress.stopAnimation()
+    progress.setValue(0)
+  }
 
   return (
     <Div
@@ -57,14 +57,14 @@ export default function Counter() {
       }}
     >
       <Div>
-        <Message type="h1">{count}</Message>
+        <Message type='h1'>{count}</Message>
       </Div>
 
       <Pressable
         onPress={increment}
         onLongPress={() => {
-          reset();
-          stopLongPressAnimation();
+          reset()
+          stopLongPressAnimation()
         }}
         onPressIn={startLongPressAnimation}
         onPressOut={stopLongPressAnimation}
@@ -98,5 +98,5 @@ export default function Counter() {
         </Message>
       </Pressable>
     </Div>
-  );
+  )
 }

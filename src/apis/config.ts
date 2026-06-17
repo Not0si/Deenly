@@ -1,5 +1,5 @@
-import { QueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { QueryClient } from "@tanstack/react-query"
+import axios from "axios"
 
 export const aladhanApi = axios.create({
   //
@@ -10,13 +10,13 @@ export const aladhanApi = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-});
+})
 
 export type IAladhanResponse<T> = {
-  code: number;
-  status: string;
-  data: T;
-};
+  code: number
+  status: string
+  data: T
+}
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,16 +29,16 @@ export const queryClient = new QueryClient({
       retry: 1,
     },
   },
-});
+})
 
 export function buildSearchParams(
-  params: Record<string, string | number | boolean | null | undefined>,
+  params: Record<string, string | number | boolean | null | undefined>
 ): string {
   return Object.entries(params)
     .filter(([, value]) => value !== null && value !== undefined)
     .map(
       ([key, value]) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+        `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
     )
-    .join("&");
+    .join("&")
 }

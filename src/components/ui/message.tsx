@@ -1,17 +1,17 @@
-import { useLocale } from "@/stores/locale";
-import { useTheme } from "@/stores/theme";
-import { Text, type TextProps } from "react-native";
-import { withErrorBoundary } from "./error-boundary";
+import { useLocale } from "@/stores/locale"
+import { useTheme } from "@/stores/theme"
+import { Text, type TextProps } from "react-native"
+import { withErrorBoundary } from "./error-boundary"
 
 export type IProps = TextProps & {
-  type?: "default" | "h1" | "h2" | "h3" | "caption";
-};
+  type?: "default" | "h1" | "h2" | "h3" | "caption"
+}
 
 function Comp({ style, type = "default", ...rest }: IProps) {
-  const colors = useTheme((s) => s.colors);
-  const fontFamily = useLocale((s) => s.fontFamily);
-  const typography = useLocale((s) => s.typography);
-  const dir = useLocale((s) => s.dir);
+  const colors = useTheme((s) => s.colors)
+  const fontFamily = useLocale((s) => s.fontFamily)
+  const typography = useLocale((s) => s.typography)
+  const dir = useLocale((s) => s.dir)
 
   return (
     <Text
@@ -26,7 +26,7 @@ function Comp({ style, type = "default", ...rest }: IProps) {
       ]}
       {...rest}
     />
-  );
+  )
 }
 
-export const Message = withErrorBoundary(Comp);
+export const Message = withErrorBoundary(Comp)

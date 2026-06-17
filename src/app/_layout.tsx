@@ -1,22 +1,22 @@
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
+import { Stack } from "expo-router"
+import { StatusBar } from "expo-status-bar"
+import "react-native-reanimated"
 
-import { queryClient } from "@/apis/config";
-import { migrateDbIfNeeded } from "@/repository";
-import { useTheme } from "@/stores/theme";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { SQLiteProvider } from "expo-sqlite";
-import { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { queryClient } from "@/apis/config"
+import { migrateDbIfNeeded } from "@/repository"
+import { useTheme } from "@/stores/theme"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { useFonts } from "expo-font"
+import * as SplashScreen from "expo-splash-screen"
+import { SQLiteProvider } from "expo-sqlite"
+import { useEffect } from "react"
+import { SafeAreaView } from "react-native-safe-area-context"
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colors = useTheme((s) => s.colors);
-  const isDark = useTheme((s) => s.isDark);
+  const colors = useTheme((s) => s.colors)
+  const isDark = useTheme((s) => s.isDark)
 
   const [loaded, error] = useFonts({
     Cairo: require("./../assets/fonts/cairo/Cairo-VariableFont_slnt,wght.ttf"),
@@ -24,20 +24,20 @@ export default function RootLayout() {
     "Nunito-Italic": require("./../assets/fonts/nunito/Nunito-Italic-VariableFont_wght.ttf"),
     Cabin: require("./../assets/fonts/cabin/Cabin-VariableFont_wdth,wght.ttf"),
     "Cabin-Italic": require("./../assets/fonts/cabin/Cabin-Italic-VariableFont_wdth,wght.ttf"),
-  });
+  })
 
   useEffect(() => {
     if (loaded || error) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded, error]);
+  }, [loaded, error])
 
   if (!loaded && !error) {
-    return null;
+    return null
   }
 
   return (
-    <SQLiteProvider databaseName="medxcore.db" onInit={migrateDbIfNeeded}>
+    <SQLiteProvider databaseName='medxcore.db' onInit={migrateDbIfNeeded}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
           <Stack
@@ -48,7 +48,7 @@ export default function RootLayout() {
             }}
           >
             <Stack.Screen
-              name="(tabs)"
+              name='(tabs)'
               options={{
                 headerShown: false,
                 contentStyle: {
@@ -58,7 +58,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="counter"
+              name='counter'
               options={{
                 headerShown: false,
                 contentStyle: {
@@ -68,7 +68,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="modal"
+              name='modal'
               options={{ presentation: "modal", title: "Modal" }}
             />
           </Stack>
@@ -77,5 +77,5 @@ export default function RootLayout() {
         <StatusBar style={isDark ? "light" : "dark"} />
       </QueryClientProvider>
     </SQLiteProvider>
-  );
+  )
 }

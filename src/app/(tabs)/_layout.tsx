@@ -1,10 +1,10 @@
-import { Tabs } from "expo-router";
+import { Tabs } from "expo-router"
 
-import { TabBarCustom } from "@/components/elements/common/tab-bar-custom";
-import { useTheme } from "@/stores/theme";
+import { TabBarCustom } from "@/components/elements/global/tab-bar-custom"
+import { useTheme } from "@/stores/theme"
 
 export default function TabLayout() {
-  const colors = useTheme((s) => s.colors);
+  const colors = useTheme((s) => s.colors)
 
   return (
     <Tabs
@@ -18,23 +18,23 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
           title: "Home",
         }}
       />
       <Tabs.Screen
-        name="salat"
+        name='salat'
         options={{
           title: "Salat",
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name='explore'
         options={{
           title: "Explore",
         }}
       />
     </Tabs>
-  );
+  )
 }

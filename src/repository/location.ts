@@ -1,19 +1,19 @@
-import Storage from "expo-sqlite/kv-store";
+import Storage from "expo-sqlite/kv-store"
 
-import { LocationObject } from "expo-location";
+import { LocationObject } from "expo-location"
 
 export const locationRepository = {
   get: async () => {
-    const value = await Storage.getItem("user_ocation");
+    const value = await Storage.getItem("user_ocation")
 
-    if (!value) return null;
+    if (!value) return null
 
-    const entity = JSON.parse(value) as LocationObject;
+    const entity = JSON.parse(value) as LocationObject
 
-    return entity;
+    return entity
   },
 
   set: async (location: LocationObject) => {
-    await Storage.setItem("user_ocation", JSON.stringify(location));
+    await Storage.setItem("user_ocation", JSON.stringify(location))
   },
-};
+}

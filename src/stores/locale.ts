@@ -1,19 +1,19 @@
-import { ILocale, L10nMessages } from "@/l10n";
-import { TextStyle } from "react-native";
-import { create } from "zustand";
+import { ILocale, L10nMessages } from "@/l10n"
+import { TextStyle } from "react-native"
+import { create } from "zustand"
 
 type ITypography = {
-  display: TextStyle;
-  h1: TextStyle;
-  h2: TextStyle;
-  h3: TextStyle;
-  title: TextStyle;
-  body: TextStyle;
-  bodySmall: TextStyle;
-  caption: TextStyle;
-  button: TextStyle;
-};
-type IFontFamily = "Nunito" | "Cairo" | "Cabin";
+  display: TextStyle
+  h1: TextStyle
+  h2: TextStyle
+  h3: TextStyle
+  title: TextStyle
+  body: TextStyle
+  bodySmall: TextStyle
+  caption: TextStyle
+  button: TextStyle
+}
+type IFontFamily = "Nunito" | "Cairo" | "Cabin"
 
 const typographies: Record<IFontFamily, ITypography> = {
   Nunito: {
@@ -186,21 +186,21 @@ const typographies: Record<IFontFamily, ITypography> = {
       lineHeight: 20,
     },
   },
-} as const;
+} as const
 
-type TranslateParams = Record<string, string | number>;
+type TranslateParams = Record<string, string | number>
 
 type IState = {
-  locale: ILocale;
-  dir: "rtl" | "ltr";
-  fontFamily: IFontFamily;
-  typography: ITypography;
-  setLocale: (locale: ILocale) => void;
+  locale: ILocale
+  dir: "rtl" | "ltr"
+  fontFamily: IFontFamily
+  typography: ITypography
+  setLocale: (locale: ILocale) => void
   translate: (
     key: keyof (typeof L10nMessages)["en"],
-    params?: TranslateParams,
-  ) => string;
-};
+    params?: TranslateParams
+  ) => string
+}
 
 export const useLocale = create<IState>((set, get) => ({
   locale: "en",
@@ -209,31 +209,31 @@ export const useLocale = create<IState>((set, get) => ({
   typography: typographies.Nunito,
 
   setLocale: (locale) => {
-    const isArabic = locale === "ar";
+    const isArabic = locale === "ar"
 
     set({
       locale,
       dir: isArabic ? "rtl" : "ltr",
       fontFamily: isArabic ? "Cairo" : "Cabin",
       typography: isArabic ? typographies.Cairo : typographies.Cabin,
-    });
+    })
   },
 
   translate: (key, params) => {
-    const locale = get().locale;
+    const locale = get().locale
 
-    let text = L10nMessages[locale][key] ?? L10nMessages.en[key] ?? String(key);
+    let text = L10nMessages[locale][key] ?? L10nMessages.en[key] ?? String(key)
 
-    if (!params) return text;
+    if (!params) return text
 
     // replace {placeholders}
     Object.entries(params).forEach(([k, v]) => {
-      text = text.replace(new RegExp(`\\{${k}\\}`, "g"), String(v));
-    });
+      text = text.replace(new RegExp(`\\{${k}\\}`, "g"), String(v))
+    })
 
-    return text;
+    return text
   },
-}));
+}))
 
 // JSON
 // {

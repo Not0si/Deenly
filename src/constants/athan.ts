@@ -16,7 +16,7 @@ export const calendarMethod = Object.freeze({
     value: "MATHEMATICAL",
     description: "",
   },
-});
+})
 
 export const latitudeAdjustmentMethod = Object.freeze({
   MiddleOfTheNight: {
@@ -31,7 +31,7 @@ export const latitudeAdjustmentMethod = Object.freeze({
     value: 3,
     description: "Angle Based",
   },
-});
+})
 
 export const midnightMode = Object.freeze({
   Standard: {
@@ -42,7 +42,7 @@ export const midnightMode = Object.freeze({
     value: 1,
     description: "Mid Sunset to Fajr",
   },
-});
+})
 
 export const school = Object.freeze({
   Shafi: {
@@ -53,7 +53,7 @@ export const school = Object.freeze({
     value: 1,
     description: "Hanafi",
   },
-});
+})
 
 export const prayerCalculationMethod = Object.freeze({
   Jafari: {
@@ -84,4 +84,4 @@ export const prayerCalculationMethod = Object.freeze({
     value: 21,
     description: "Morocco",
   },
-});
+})
