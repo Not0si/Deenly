@@ -14,6 +14,8 @@ interface IPalette {
   fg: string
   fg_surface: string
 
+  border: string
+
   icon: string
   icon_muted: string
 
@@ -25,12 +27,13 @@ interface IPalette {
 
 type ITheme = "ocean" | "light" | "sunset" | "forest"
 
-const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
+const palettes: Record<
+  ITheme,
+  { isDark: boolean; colors: Omit<IPalette, "accent"> }
+> = {
   light: {
     isDark: false,
     colors: {
-      accent: "#ffb703",
-
       bg: "#F8FAFC",
       bg_canvas: "#F8FAFC", // app background
       bg_surface: "#FFFFFF", // main cards
@@ -39,6 +42,8 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
 
       fg: "#023047",
       fg_surface: "#bdbfc4",
+
+      border: "#bdbfc4",
 
       icon: "#c7c8cd",
       icon_muted: "#c6c7cc",
@@ -53,8 +58,6 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
   ocean: {
     isDark: true,
     colors: {
-      accent: "#ffb703",
-
       bg: "#1C1C23",
       bg_canvas: "#2C2D34",
       bg_surface: "#323339",
@@ -63,6 +66,8 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
 
       fg: "#d8d9dd",
       fg_surface: "#bdbfc4",
+
+      border: "#bdbfc4",
 
       icon: "#c7c8cd",
       icon_muted: "#c6c7cc",
@@ -77,8 +82,6 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
   forest: {
     isDark: true,
     colors: {
-      accent: "#ffb703",
-
       bg: "#2c2a42",
       bg_canvas: "#36354d",
       bg_surface: "#122018",
@@ -87,6 +90,8 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
 
       fg: "#fafafa",
       fg_surface: "#bdbfc4",
+
+      border: "#bdbfc4",
 
       icon: "#c7c8cd",
       icon_muted: "#c6c7cc",
@@ -101,8 +106,6 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
   sunset: {
     isDark: false,
     colors: {
-      accent: "#ffb703",
-
       bg: "#FFF7ED",
       bg_canvas: "#FFF7ED",
       bg_surface: "#FFFFFF",
@@ -111,6 +114,8 @@ const palettes: Record<ITheme, { isDark: boolean; colors: IPalette }> = {
 
       fg: "#2e2e2e",
       fg_surface: "#bdbfc4",
+
+      border: "#bdbfc4",
 
       icon: "#c7c8cd",
       icon_muted: "#c6c7cc",
@@ -136,7 +141,10 @@ interface IProperties {
 const initialState: IProperties = {
   theme: "ocean",
   isDark: palettes.ocean.isDark,
-  colors: palettes.ocean.colors,
+  colors: {
+    accent: "#ffb703",
+    ...palettes.ocean.colors,
+  },
 }
 
 interface IMethods {
@@ -152,7 +160,7 @@ export const useTheme = create<IProperties & IMethods>((set) => ({
     set({
       theme,
       isDark: pickedPalette.isDark,
-      colors: pickedPalette.colors,
+      colors: { accent: "#ffb703", ...pickedPalette.colors },
     })
   },
 }))

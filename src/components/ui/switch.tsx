@@ -1,134 +1,178 @@
-import React, { createContext, ReactNode, useContext } from "react"
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native"
+import { useEffect } from "react"
+import { Pressable, StyleSheet, Text, View } from "react-native"
+import Animated, {
+  Easing,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
 
-/* ---------------- Types ---------------- */
-
-type SwitchContextValue = {
-  value: string
-  onChange: (value: string) => void
-}
-
-type SwitchProps = {
-  value: string
-  onChange: (value: string) => void
-  children: ReactNode
-  style?: ViewStyle
-}
+import { useTheme } from "@/stores/theme"
+import { CheckOutlined, XmarkOutlined } from "@lineiconshq/free-icons"
+import Lineicons from "@lineiconshq/react-native-lineicons"
 
 type ItemProps = {
-  value: string
+  checked: boolean
+  onChange: (checked: boolean) => void
   label: string
+  description?: string
   disabled?: boolean
 }
 
-/* ---------------- Context ---------------- */
+const TRACK_WIDTH = 52
+const TRACK_HEIGHT = 28
+const THUMB_SIZE = 22
+const TRACK_PADDING = 2
+const THUMB_TRANSLATE = TRACK_WIDTH - THUMB_SIZE - TRACK_PADDING * 2 - 2 // -2 for border width
 
-const SwitchContext = createContext<SwitchContextValue | null>(null)
+export function Switch({
+  checked,
+  label,
+  description,
+  disabled = false,
+  onChange,
+}: ItemProps) {
+  const colors = useTheme((s) => s.colors)
 
-function useSwitch() {
-  const ctx = useContext(SwitchContext)
-  if (!ctx) {
-    throw new Error("Switch.Item must be used inside Switch")
-  }
-  return ctx
-}
+  const progress = useSharedValue(checked ? 1 : 0)
 
-/* ---------------- Root ---------------- */
+  useEffect(() => {
+    progress.value = withTiming(checked ? 1 : 0, {
+      duration: 140,
+      easing: Easing.out(Easing.cubic),
+    })
+  }, [checked])
 
-function Switch({ value, onChange, children, style }: SwitchProps) {
+  const trackStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [colors.bg_surface, colors.accent]
+    ),
+    borderColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [colors.border, colors.accent]
+    ),
+  }))
+
+  const thumbStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: progress.value * THUMB_TRANSLATE,
+      },
+    ],
+  }))
+
+  const iconStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: withTiming(progress.value ? 1 : 0.85) }],
+    opacity: withTiming(0.8 + progress.value * 0.2),
+  }))
+
   return (
-    <SwitchContext.Provider value={{ value, onChange }}>
-      <View style={style}>{children}</View>
-    </SwitchContext.Provider>
-  )
-}
-
-/* ---------------- Item ---------------- */
-
-function Item({ value, label, disabled = false }: ItemProps) {
-  const { value: selectedValue, onChange } = useSwitch()
-
-  const selected = selectedValue === value
-
-  return (
-    <TouchableOpacity
-      style={[
-        styles.item,
-        selected && styles.itemSelected,
+    <Pressable
+      disabled={disabled}
+      onPress={() => onChange(!checked)}
+      style={({ pressed }) => [
+        styles.container,
+        { backgroundColor: colors.bg_canvas },
         disabled && styles.disabled,
+        pressed && styles.pressed,
       ]}
-      onPress={() => {
-        if (!disabled) onChange(value)
-      }}
-      activeOpacity={0.8}
     >
-      <View style={[styles.dot, selected && styles.dotSelected]} />
+      <View style={styles.content}>
+        <Text style={[styles.label, { color: colors.fg }]}>{label}</Text>
 
-      <Text
-        style={[
-          styles.label,
-          selected && styles.labelSelected,
-          disabled && styles.labelDisabled,
-        ]}
-      >
-        {label}
-      </Text>
-    </TouchableOpacity>
+        {description ? (
+          <Text style={[styles.description, { color: colors.fg_surface }]}>
+            {description}
+          </Text>
+        ) : null}
+      </View>
+
+      <Animated.View style={[styles.track, trackStyle]}>
+        <Animated.View
+          style={[styles.thumb, { backgroundColor: "#fff" }, thumbStyle]}
+        >
+          <Animated.View style={iconStyle}>
+            <Lineicons
+              icon={checked ? CheckOutlined : XmarkOutlined}
+              size={14}
+              color={checked ? colors.accent : colors.bg_canvas}
+              strokeWidth={2.5}
+            />
+          </Animated.View>
+        </Animated.View>
+      </Animated.View>
+    </Pressable>
   )
 }
-
-/* ---------------- Compound Export ---------------- */
-
-Switch.Item = Item
-
-export { Switch }
-
-/* ---------------- Styles ---------------- */
 
 const styles = StyleSheet.create({
-  item: {
+  container: {
+    minHeight: 60,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    marginBottom: 8,
-    backgroundColor: "#f2f2f2",
-  },
-  itemSelected: {
-    backgroundColor: "#e6f0ff",
+    justifyContent: "space-between",
+
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+
+    borderRadius: 16,
   },
 
-  dot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    backgroundColor: "#aaa",
-    marginRight: 10,
-  },
-  dotSelected: {
-    backgroundColor: "#2f6fed",
-  },
-
-  label: {
-    fontSize: 15,
-    color: "#333",
-  },
-  labelSelected: {
-    color: "#2f6fed",
-    fontWeight: "600",
+  pressed: {
+    opacity: 0.95,
+    transform: [{ scale: 0.98 }],
   },
 
   disabled: {
-    opacity: 0.5,
+    opacity: 0.45,
   },
-  labelDisabled: {
-    color: "#999",
+
+  content: {
+    flex: 1,
+    paddingRight: 16,
+  },
+
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  description: {
+    marginTop: 4,
+    fontSize: 13,
+  },
+
+  track: {
+    width: TRACK_WIDTH,
+    height: TRACK_HEIGHT,
+    borderRadius: TRACK_HEIGHT / 2,
+
+    borderWidth: 1,
+
+    padding: TRACK_PADDING,
+    justifyContent: "center",
+  },
+
+  thumb: {
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    borderRadius: THUMB_SIZE / 2,
+
+    alignItems: "center",
+    justifyContent: "center",
+
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+
+    elevation: 2,
   },
 })

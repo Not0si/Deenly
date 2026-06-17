@@ -1,6 +1,6 @@
 import { useTheme } from "@/stores/theme"
 import React, { createContext, ReactNode, useContext } from "react"
-import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native"
 
 /* ---------------- Types ---------------- */
 
@@ -64,20 +64,19 @@ function Item({ value, children, disabled = false }: ItemProps) {
   const selected = selectedValue === value
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={[
         { flexDirection: "row", alignItems: "center" },
         {
           backgroundColor: colors.bg_canvas,
           minHeight: 60,
-          paddingHorizontal: 6,
+          paddingHorizontal: 10,
         },
         disabled && styles.disabled,
       ]}
       onPress={() => {
         if (!disabled) onChange(value)
       }}
-      activeOpacity={0.7}
     >
       <View style={{ flex: 1 }}>{children}</View>
 
@@ -96,7 +95,7 @@ function Item({ value, children, disabled = false }: ItemProps) {
           <View style={{ ...styles.inner, backgroundColor: "#fff" }} />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -118,13 +117,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginStart: 10,
-    marginEnd: 8,
   },
   inner: {
     height: 10,
     width: 10,
     borderRadius: 5,
-    backgroundColor: "#222",
   },
 
   /* disabled */

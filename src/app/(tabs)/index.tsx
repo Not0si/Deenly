@@ -1,6 +1,6 @@
 import { Div } from "@/components/ui/div"
 import { Message } from "@/components/ui/message"
-import { locationRepository } from "@/repository/location"
+import { locationRepository } from "@/repositories/location"
 import * as Location from "expo-location"
 import { LocationObject } from "expo-location"
 import { useEffect, useState } from "react"

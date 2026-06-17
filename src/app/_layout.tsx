@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar"
 import "react-native-reanimated"
 
 import { queryClient } from "@/apis/config"
-import { migrateDbIfNeeded } from "@/repository"
+import { migrateDbIfNeeded } from "@/repositories"
 import { useTheme } from "@/stores/theme"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { useFonts } from "expo-font"
