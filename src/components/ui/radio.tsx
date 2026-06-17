@@ -1,6 +1,12 @@
 import { useTheme } from "@/stores/theme"
-import React, { createContext, ReactNode, useContext } from "react"
+import React, { createContext, ReactNode, useContext, useEffect } from "react"
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native"
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated"
 
 /* ---------------- Types ---------------- */
 
@@ -28,9 +34,11 @@ const RadioContext = createContext<RadioContextValue | null>(null)
 
 function useRadio() {
   const ctx = useContext(RadioContext)
+
   if (!ctx) {
     throw new Error("Radio.Item must be used inside Radio")
   }
+
   return ctx
 }
 
@@ -61,40 +69,90 @@ function Radio({ value, onChange, children, style }: RadioProps) {
 function Item({ value, children, disabled = false }: ItemProps) {
   const { value: selectedValue, onChange } = useRadio()
   const colors = useTheme((s) => s.colors)
+
   const selected = selectedValue === value
+
+  const progress = useSharedValue(selected ? 1 : 0)
+
+  useEffect(() => {
+    progress.value = withSpring(selected ? 1 : 0, {
+      damping: 12,
+      stiffness: 180,
+      mass: 0.8,
+    })
+  }, [selected, progress])
+
+  const outerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      borderColor: interpolateColor(
+        progress.value,
+        [0, 1],
+        [colors.fg, colors.accent]
+      ),
+      backgroundColor: interpolateColor(
+        progress.value,
+        [0, 1],
+        ["transparent", colors.accent]
+      ),
+      transform: [
+        {
+          scale: 1 + progress.value * 0.08,
+        },
+      ],
+    }
+  })
+
+  const innerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: progress.value,
+      transform: [
+        {
+          scale: progress.value,
+        },
+      ],
+    }
+  })
 
   return (
     <Pressable
-      style={[
-        { flexDirection: "row", alignItems: "center" },
+      disabled={disabled}
+      style={({ pressed }) => [
         {
+          flexDirection: "row",
+          alignItems: "center",
           backgroundColor: colors.bg_canvas,
           minHeight: 60,
           paddingHorizontal: 10,
+          opacity: pressed ? 0.8 : 1,
+          // borderBottomWidth: 0.25,
+          // borderStyle: "solid",
+          // borderColor: colors.border,
         },
         disabled && styles.disabled,
       ]}
       onPress={() => {
-        if (!disabled) onChange(value)
+        if (!disabled) {
+          onChange(value)
+        }
       }}
     >
       <View style={{ flex: 1 }}>{children}</View>
 
-      <View
+      <Animated.View
         style={[
           styles.outer,
-          { borderColor: colors.fg },
-          selected && {
-            borderColor: colors.accent,
-            backgroundColor: colors.accent,
-          },
+          outerAnimatedStyle,
           disabled && styles.outerDisabled,
         ]}
       >
-        {selected && (
-          <View style={{ ...styles.inner, backgroundColor: "#fff" }} />
-        )}
-      </View>
+        <Animated.View
+          style={[
+            styles.inner,
+            { backgroundColor: "#fff" },
+            innerAnimatedStyle,
+          ]}
+        />
+      </Animated.View>
     </Pressable>
   )
 }
@@ -118,19 +176,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginStart: 10,
   },
+
   inner: {
     height: 10,
     width: 10,
     borderRadius: 5,
   },
 
-  /* disabled */
   disabled: {
     opacity: 0.5,
   },
+
   outerDisabled: {
     borderColor: "#999",
   },
+
   labelDisabled: {
     color: "#999",
   },
