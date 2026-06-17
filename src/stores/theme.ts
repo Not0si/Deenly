@@ -1,168 +1,63 @@
-import { create } from "zustand"
-
-// #region asd
-
-interface IPalette {
-  accent: string
-
-  bg: string
-  bg_canvas: string
-  bg_surface: string
-  bg_surfaceAlt: string
-  bg_surfaceMuted: string
-
-  fg: string
-  fg_surface: string
-
-  border: string
-
-  icon: string
-  icon_muted: string
-
-  success: string
-  warning: string
-  error: string
-  info: string
-}
-
-type ITheme = "ocean" | "light" | "sunset" | "forest"
-
-const palettes: Record<
+import {
+  accents,
+  IAccentColor,
+  IPalette,
   ITheme,
-  { isDark: boolean; colors: Omit<IPalette, "accent"> }
-> = {
-  light: {
-    isDark: false,
-    colors: {
-      bg: "#F8FAFC",
-      bg_canvas: "#F8FAFC", // app background
-      bg_surface: "#FFFFFF", // main cards
-      bg_surfaceAlt: "#F1F5F9", // slightly elevated sections
-      bg_surfaceMuted: "#E2E8F0", // dividers / subtle blocks
-
-      fg: "#023047",
-      fg_surface: "#bdbfc4",
-
-      border: "#bdbfc4",
-
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
-
-      success: "#16A34A",
-      warning: "#D97706",
-      error: "#DC2626",
-      info: "#2563EB",
-    },
-  },
-
-  ocean: {
-    isDark: true,
-    colors: {
-      bg: "#1C1C23",
-      bg_canvas: "#2C2D34",
-      bg_surface: "#323339",
-      bg_surfaceAlt: "#373A43",
-      bg_surfaceMuted: "#27272F",
-
-      fg: "#d8d9dd",
-      fg_surface: "#bdbfc4",
-
-      border: "#bdbfc4",
-
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
-
-      success: "#22C55E",
-      warning: "#F59E0B",
-      error: "#EF4444",
-      info: "#3B82F6",
-    },
-  },
-
-  forest: {
-    isDark: true,
-    colors: {
-      bg: "#2c2a42",
-      bg_canvas: "#36354d",
-      bg_surface: "#122018",
-      bg_surfaceAlt: "#1A2B20",
-      bg_surfaceMuted: "#223A2C",
-
-      fg: "#fafafa",
-      fg_surface: "#bdbfc4",
-
-      border: "#bdbfc4",
-
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
-
-      success: "#22C55E",
-      warning: "#EAB308",
-      error: "#EF4444",
-      info: "#38BDF8",
-    },
-  },
-
-  sunset: {
-    isDark: false,
-    colors: {
-      bg: "#FFF7ED",
-      bg_canvas: "#FFF7ED",
-      bg_surface: "#FFFFFF",
-      bg_surfaceAlt: "#FFEDD5",
-      bg_surfaceMuted: "#FED7AA",
-
-      fg: "#2e2e2e",
-      fg_surface: "#bdbfc4",
-
-      border: "#bdbfc4",
-
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
-
-      success: "#16A34A",
-      warning: "#F59E0B",
-      error: "#DC2626",
-      info: "#EA580C",
-    },
-  },
-} as const
-
-// #endregion
-
-// #region das
+  palettes,
+} from "@/constants/theme"
+import { create } from "zustand"
 
 interface IProperties {
   theme: ITheme
+  accentName: IAccentColor
   isDark: boolean
   colors: IPalette
 }
 
 const initialState: IProperties = {
   theme: "ocean",
+  accentName: "yellow",
   isDark: palettes.ocean.isDark,
   colors: {
-    accent: "#ffb703",
+    accent: accents.yellow.dark,
     ...palettes.ocean.colors,
   },
 }
 
 interface IMethods {
   onThemeChange: (theme: ITheme) => void
+  onAccentChange: (accentName: IAccentColor) => void
 }
 
-export const useTheme = create<IProperties & IMethods>((set) => ({
+export const useTheme = create<IProperties & IMethods>((set, get) => ({
   ...initialState,
 
   onThemeChange: (theme) => {
-    const pickedPalette = palettes[theme]
+    const currentAccentName = get().accentName
+    const themePalette = palettes[theme]
+    const accentPalette = accents[currentAccentName]
 
     set({
       theme,
-      isDark: pickedPalette.isDark,
-      colors: { accent: "#ffb703", ...pickedPalette.colors },
+      isDark: themePalette.isDark,
+      colors: {
+        accent: themePalette.isDark ? accentPalette.dark : accentPalette.light,
+        ...themePalette.colors,
+      },
+    })
+  },
+
+  onAccentChange: (accentName) => {
+    const currentTheme = get().theme
+    const themePalette = palettes[currentTheme]
+    const accentPalette = accents[accentName]
+
+    set({
+      accentName,
+      colors: {
+        accent: themePalette.isDark ? accentPalette.dark : accentPalette.light,
+        ...themePalette.colors,
+      },
     })
   },
 }))
-
-// #endregion
