@@ -8,6 +8,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 
+import { useLocale } from "@/stores/locale"
 import { useTheme } from "@/stores/theme"
 import { CheckOutlined, XmarkOutlined } from "@lineiconshq/free-icons"
 import Lineicons from "@lineiconshq/react-native-lineicons"
@@ -34,6 +35,7 @@ export function Switch({
   onChange,
 }: ItemProps) {
   const colors = useTheme((s) => s.colors)
+  const typography = useLocale((s) => s.typography)
 
   const progress = useSharedValue(checked ? 1 : 0)
 
@@ -82,7 +84,7 @@ export function Switch({
       ]}
     >
       <View style={styles.content}>
-        <Text style={[styles.label, { color: colors.fg }]}>{label}</Text>
+        <Text style={[typography.label, { color: colors.fg }]}>{label}</Text>
 
         {description ? (
           <Text style={[styles.description, { color: colors.fg_surface }]}>

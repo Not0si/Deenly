@@ -11,9 +11,9 @@ export const locales: Record<ILocale, IDetail> = {
   en: {
     nativeName: "English",
     dir: "ltr",
-    trCode: "1",
+    trCode: "2",
     localeCode: "en",
   },
-  fr: { nativeName: "Français", dir: "ltr", trCode: "1", localeCode: "fr" },
-  ar: { nativeName: "العربية", dir: "rtl", trCode: "1", localeCode: "ar" },
+  fr: { nativeName: "Français", dir: "ltr", trCode: "3", localeCode: "fr" },
+  ar: { nativeName: "العربية", dir: "rtl", trCode: "4", localeCode: "ar" },
 }

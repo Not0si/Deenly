@@ -1,3 +1,4 @@
+import { useLocale } from "@/stores/locale"
 import { useTheme } from "@/stores/theme"
 import React, { createContext, ReactNode, useContext, useEffect } from "react"
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native"
@@ -69,7 +70,7 @@ function Radio({ value, onChange, children, style }: RadioProps) {
 function Item({ value, children, disabled = false }: ItemProps) {
   const { value: selectedValue, onChange } = useRadio()
   const colors = useTheme((s) => s.colors)
-
+  const dir = useLocale((s) => s.dir)
   const selected = selectedValue === value
 
   const progress = useSharedValue(selected ? 1 : 0)
@@ -118,15 +119,12 @@ function Item({ value, children, disabled = false }: ItemProps) {
       disabled={disabled}
       style={({ pressed }) => [
         {
-          flexDirection: "row",
+          flexDirection: dir === "ltr" ? "row" : "row-reverse",
           alignItems: "center",
           backgroundColor: colors.bg_canvas,
           minHeight: 60,
           paddingHorizontal: 10,
           opacity: pressed ? 0.8 : 1,
-          // borderBottomWidth: 0.25,
-          // borderStyle: "solid",
-          // borderColor: colors.border,
         },
         disabled && styles.disabled,
       ]}

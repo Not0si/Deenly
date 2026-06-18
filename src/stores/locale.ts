@@ -10,17 +10,14 @@ type IState = {
   fontFamily: IFontFamily
   typography: ITypography
   setLocale: (locale: ILocale) => void
-  translate: (
-    key: keyof (typeof L10nMessages)["en"],
-    params?: TranslateParams
-  ) => string
+  translate: (key: string, params?: TranslateParams) => string
 }
 
 export const useLocale = create<IState>((set, get) => ({
   locale: "en",
   dir: "ltr",
-  fontFamily: "Nunito",
-  typography: typographies.Nunito,
+  fontFamily: "Cabin",
+  typography: typographies.Cabin,
 
   setLocale: (locale) => {
     const isArabic = locale === "ar"
@@ -36,7 +33,10 @@ export const useLocale = create<IState>((set, get) => ({
   translate: (key, params) => {
     const locale = get().locale
 
-    let text = L10nMessages[locale][key] ?? L10nMessages.en[key] ?? String(key)
+    let text =
+      (L10nMessages[locale] as any)[key] ??
+      (L10nMessages.en as any)[key] ??
+      String(key)
 
     if (!params) return text
 

@@ -7,5 +7,41 @@
       "en": "increment",
       "fr": "incrément"
     }
+  },
+  {
+    "code": "2",
+    "use": null,
+    "translation": {
+      "ar": "الإنجليزية",
+      "en": "English",
+      "fr": "anglais"
+    }
+  },
+  {
+    "code": "3",
+    "use": null,
+    "translation": {
+      "ar": "الفرنسية",
+      "en": "French",
+      "fr": "Français"
+    }
+  },
+  {
+    "code": "4",
+    "use": null,
+    "translation": {
+      "ar": "العربية",
+      "en": "Arabic",
+      "fr": "Arabe"
+    }
+  },
+  {
+    "code": "5",
+    "use": null,
+    "translation": {
+      "ar": "اللغة",
+      "en": "Language",
+      "fr": "Langue"
+    }
   }
 ]

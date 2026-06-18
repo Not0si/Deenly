@@ -10,6 +10,8 @@ export type ITypography = {
   bodySmall: TextStyle
   caption: TextStyle
   button: TextStyle
+  //
+  label: TextStyle
 }
 
 export type IFontFamily = "Nunito" | "Cairo" | "Cabin"
@@ -38,6 +40,12 @@ export const typographies: Record<IFontFamily, ITypography> = {
       fontFamily: "Nunito",
       fontWeight: "600",
       fontSize: 24,
+      lineHeight: 32,
+    },
+    label: {
+      fontFamily: "Nunito",
+      fontWeight: "600",
+      fontSize: 20,
       lineHeight: 32,
     },
     title: {
@@ -97,6 +105,12 @@ export const typographies: Record<IFontFamily, ITypography> = {
       fontSize: 24,
       lineHeight: 36,
     },
+    label: {
+      fontFamily: "Cairo",
+      fontWeight: "600",
+      fontSize: 24,
+      lineHeight: 36,
+    },
     title: {
       fontFamily: "Cairo",
       fontWeight: "600",
@@ -149,6 +163,12 @@ export const typographies: Record<IFontFamily, ITypography> = {
       lineHeight: 36,
     },
     h3: {
+      fontFamily: "Cabin",
+      fontWeight: "600",
+      fontSize: 24,
+      lineHeight: 32,
+    },
+    label: {
       fontFamily: "Cabin",
       fontWeight: "600",
       fontSize: 24,
