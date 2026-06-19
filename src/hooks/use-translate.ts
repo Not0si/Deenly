@@ -17,3 +17,16 @@ export const useTranslate = () => {
     return text
   }
 }
+
+// JSON
+// {
+//   "welcome_user": "Welcome {name}",
+//   "items_count": "You have {count} items"
+// }
+
+// React
+// const translate = useTranslate( );
+
+// translate("welcome_user", { name: "Ali" });
+
+// translate("items_count", { count: 5 });

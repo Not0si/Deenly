@@ -1,39 +1,16 @@
 import { Div } from "@/components/ui/div"
 import { Message } from "@/components/ui/message"
-import { locationRepository } from "@/repositories/location"
-import * as Location from "expo-location"
-import { LocationObject } from "expo-location"
-import { useEffect, useState } from "react"
+import { useLocation } from "@/hooks/use-location"
 import { Pressable } from "react-native"
 
 export default function HomeScreen() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [location, setLocation] = useState<LocationObject | null>(null)
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
-
-  useEffect(() => {
-    const initFunc = async () => {
-      const cachedLocation = await locationRepository.get()
-
-      setLocation(cachedLocation)
-      setIsLoading(false)
-    }
-
-    initFunc()
-  }, [])
-
-  const onGetLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync()
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied")
-      return
-    }
-
-    let currentPosition = await Location.getCurrentPositionAsync({})
-
-    await locationRepository.set(currentPosition)
-    setLocation(currentPosition)
-  }
+  const {
+    isLoading,
+    location,
+    isPermissionDenied,
+    getCurrentLocation,
+    clearLocation,
+  } = useLocation()
 
   if (isLoading) {
     return (
@@ -43,11 +20,19 @@ export default function HomeScreen() {
     )
   }
 
+  if (isPermissionDenied) {
+    return (
+      <Div>
+        <Message>Access to location denied</Message>
+      </Div>
+    )
+  }
+
   if (!isLoading && !location) {
     return (
       <Div>
         <Message>No Location Found</Message>
-        <Pressable onPress={onGetLocation}>
+        <Pressable onPress={getCurrentLocation}>
           <Message>get Location</Message>
         </Pressable>
       </Div>
@@ -59,6 +44,9 @@ export default function HomeScreen() {
       <Message>Step 1: Try it</Message>
       <Message>{location?.coords.latitude}</Message>
       <Message>{location?.coords.longitude}</Message>
+      <Pressable onPress={clearLocation}>
+        <Message>clear Location</Message>
+      </Pressable>
     </Div>
   )
 }

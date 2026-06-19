@@ -16,4 +16,8 @@ export const locationRepository = {
   set: async (location: LocationObject) => {
     await Storage.setItem("user_ocation", JSON.stringify(location))
   },
+
+  remove: async () => {
+    await Storage.removeItem("user_ocation")
+  },
 }
