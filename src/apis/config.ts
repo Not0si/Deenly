@@ -12,12 +12,6 @@ export const aladhanApi = axios.create({
   },
 })
 
-export type IAladhanResponse<T> = {
-  code: number
-  status: string
-  data: T
-}
-
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -31,9 +25,11 @@ export const queryClient = new QueryClient({
   },
 })
 
-export function buildSearchParams(
-  params: Record<string, string | number | boolean | null | undefined>
-): string {
+type IParams = {
+  [key: string]: string | number | boolean | null | undefined
+}
+
+export function buildSearchParams<T extends IParams>(params: T): string {
   return Object.entries(params)
     .filter(([, value]) => value !== null && value !== undefined)
     .map(

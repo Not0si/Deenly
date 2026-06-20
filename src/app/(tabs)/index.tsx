@@ -1,4 +1,4 @@
-import { useGetPrayerTimes } from "@/apis"
+import { useGetPrayerTimes } from "@/apis/aladhan-api"
 import { Div } from "@/components/ui/div"
 import { Message } from "@/components/ui/message"
 import { useLocation } from "@/hooks/use-location"
@@ -18,15 +18,13 @@ export default function HomeScreen() {
     longitude: location?.coords.longitude.toString(),
   })
 
-  console.log({ data: data?.data })
-
-  if (data?.data) {
+  if (data?.length) {
     return (
       <Div>
-        {data?.data.map((item, index) => {
+        {data.map((item, index) => {
           return (
             <Div key={index}>
-              <Message>{JSON.stringify(item.timings.Isha)}</Message>
+              <Message>{JSON.stringify(item.timings)}</Message>
             </Div>
           )
         })}

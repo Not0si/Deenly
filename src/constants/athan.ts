@@ -1,4 +1,4 @@
-export const calendarMethod = Object.freeze({
+export const calendarMethod = {
   HJCoSA: {
     value: "HJCoSA",
     description:
@@ -16,9 +16,17 @@ export const calendarMethod = Object.freeze({
     value: "MATHEMATICAL",
     description: "",
   },
-})
+} as const
 
-export const latitudeAdjustmentMethod = Object.freeze({
+export type ICalendarMethod =
+  (typeof calendarMethod)[keyof typeof calendarMethod]["value"]
+
+//========================================
+//
+//
+//========================================
+
+export const latitudeAdjustmentMethod = {
   MiddleOfTheNight: {
     value: 1,
     description: "Middle of the Night",
@@ -31,9 +39,17 @@ export const latitudeAdjustmentMethod = Object.freeze({
     value: 3,
     description: "Angle Based",
   },
-})
+} as const
 
-export const midnightMode = Object.freeze({
+export type ILatitudeAdjustmentMethod =
+  (typeof latitudeAdjustmentMethod)[keyof typeof latitudeAdjustmentMethod]["value"]
+
+//========================================
+//
+//
+//========================================
+
+export const midnightMode = {
   Standard: {
     value: 0,
     description: "Mid Sunset to Sunrise",
@@ -42,9 +58,17 @@ export const midnightMode = Object.freeze({
     value: 1,
     description: "Mid Sunset to Fajr",
   },
-})
+} as const
 
-export const school = Object.freeze({
+export type IMidnightMode =
+  (typeof midnightMode)[keyof typeof midnightMode]["value"]
+
+//========================================
+//
+//
+//========================================
+
+export const school = {
   Shafi: {
     value: 0,
     description: "Shafi",
@@ -53,9 +77,16 @@ export const school = Object.freeze({
     value: 1,
     description: "Hanafi",
   },
-})
+} as const
 
-export const prayerCalculationMethod = Object.freeze({
+export type ISchool = (typeof school)[keyof typeof school]["value"]
+
+//========================================
+//
+//
+//========================================
+
+export const prayerCalculationMethod = {
   Jafari: {
     value: 0,
     description: "Jafari / Shia Ithna-Ashari",
@@ -84,4 +115,7 @@ export const prayerCalculationMethod = Object.freeze({
     value: 21,
     description: "Morocco",
   },
-})
+} as const
+
+export type IPrayerCalculationMethod =
+  (typeof prayerCalculationMethod)[keyof typeof prayerCalculationMethod]["value"]
