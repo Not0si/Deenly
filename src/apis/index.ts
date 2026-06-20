@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query"
 import { aladhanApi, buildSearchParams, IAladhanResponse } from "./config"
 
 interface IOptions {
-  latitude: string
-  longitude: string
+  latitude: string | undefined
+  longitude: string | undefined
   method?: number
   shafaq?: string
   tune?: string

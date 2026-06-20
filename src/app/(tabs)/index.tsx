@@ -1,3 +1,4 @@
+import { useGetPrayerTimes } from "@/apis"
 import { Div } from "@/components/ui/div"
 import { Message } from "@/components/ui/message"
 import { useLocation } from "@/hooks/use-location"
@@ -11,6 +12,27 @@ export default function HomeScreen() {
     getCurrentLocation,
     clearLocation,
   } = useLocation()
+
+  const { data } = useGetPrayerTimes(2026, 6, {
+    latitude: location?.coords.latitude.toString(),
+    longitude: location?.coords.longitude.toString(),
+  })
+
+  console.log({ data: data?.data })
+
+  if (data?.data) {
+    return (
+      <Div>
+        {data?.data.map((item, index) => {
+          return (
+            <Div key={index}>
+              <Message>{JSON.stringify(item.timings.Isha)}</Message>
+            </Div>
+          )
+        })}
+      </Div>
+    )
+  }
 
   if (isLoading) {
     return (
