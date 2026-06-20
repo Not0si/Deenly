@@ -28,7 +28,7 @@ export const useGetPrayerTimes = (
 ) => {
   const params = buildSearchParams({
     ...options,
-    school: 1,
+    school: 0,
     midnightMode: 1,
     calendarMethod: "UAQ",
     timezonestring: "UTC",
@@ -48,8 +48,16 @@ export const useGetPrayerTimes = (
         throw new Error("Faild to parse data")
       }
 
-      return parseResult.data
+      return mapToObj(parseResult.data)
     },
     enabled: !!year && !!month && !!options.latitude && !!options.longitude,
   })
+}
+
+const mapToObj = (data: IPrayerTime[]): Record<string, IPrayerTime> => {
+  const entries = data.map((item) => {
+    return [item.date.gregorian.date, item]
+  })
+
+  return Object.fromEntries(entries)
 }

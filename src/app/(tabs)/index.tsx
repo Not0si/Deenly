@@ -2,6 +2,7 @@ import { useGetPrayerTimes } from "@/apis/aladhan-api"
 import { Div } from "@/components/ui/div"
 import { Message } from "@/components/ui/message"
 import { useLocation } from "@/hooks/use-location"
+import { getDateKey } from "@/utils/datetime"
 import { Pressable } from "react-native"
 
 export default function HomeScreen() {
@@ -16,18 +17,16 @@ export default function HomeScreen() {
   const { data } = useGetPrayerTimes(2026, 6, {
     latitude: location?.coords.latitude.toString(),
     longitude: location?.coords.longitude.toString(),
+    method: 3,
   })
 
-  if (data?.length) {
+  const todayKey = getDateKey(new Date())
+  const todayValue = data?.[todayKey]
+
+  if (todayValue) {
     return (
       <Div>
-        {data.map((item, index) => {
-          return (
-            <Div key={index}>
-              <Message>{JSON.stringify(item.timings)}</Message>
-            </Div>
-          )
-        })}
+        <Message>{JSON.stringify(todayValue)}</Message>
       </Div>
     )
   }

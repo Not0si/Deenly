@@ -27,6 +27,10 @@ const PrayerTimeSchema = z.object({
         ar: z.string(),
       }),
     }),
+    gregorian: z.object({
+      date: z.string(),
+      format: z.string(),
+    }),
     readable: z.string(),
     timestamp: z.string(),
   }),
