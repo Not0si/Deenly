@@ -1,15 +1,15 @@
-import { Stack } from "expo-router"
-import { StatusBar } from "expo-status-bar"
-import "react-native-reanimated"
-
 import { queryClient } from "@/apis/config"
 import { migrateDbIfNeeded } from "@/repositories"
 import { useTheme } from "@/stores/theme"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { useFonts } from "expo-font"
+import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
 import { SQLiteProvider } from "expo-sqlite"
+import { StatusBar } from "expo-status-bar"
 import { useEffect } from "react"
+import { KeyboardProvider } from "react-native-keyboard-controller"
+import "react-native-reanimated"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 SplashScreen.preventAutoHideAsync()
@@ -36,44 +36,67 @@ export default function RootLayout() {
     return null
   }
 
+  // useEffect(() => {
+  //   // Set the background color
+  //   NavigationBar.setBackgroundColorAsync(colors.bg)
+
+  //   // Set button icon colors ('dark' for dark icons on light bg, 'light' for light icons)
+  //   NavigationBar.setButtonStyleAsync(isDark ? "light" : "dark")
+  // }, [])
+
   return (
     <SQLiteProvider databaseName='medxcore.db' onInit={migrateDbIfNeeded}>
       <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-          <Stack
-            screenOptions={{
-              contentStyle: {
-                backgroundColor: colors.bg,
-              },
-            }}
-          >
-            <Stack.Screen
-              name='(tabs)'
-              options={{
-                headerShown: false,
+        <KeyboardProvider>
+          <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
+            <Stack
+              screenOptions={{
                 contentStyle: {
                   backgroundColor: colors.bg,
-                  flex: 1,
                 },
               }}
-            />
-            <Stack.Screen
-              name='counter'
-              options={{
-                headerShown: false,
-                contentStyle: {
-                  backgroundColor: colors.bg,
-                  flex: 1,
-                },
-              }}
-            />
-            <Stack.Screen
-              name='modal'
-              options={{ presentation: "modal", title: "Modal" }}
-            />
-          </Stack>
-        </SafeAreaView>
+            >
+              <Stack.Screen
+                name='index'
+                options={{
+                  headerShown: false, // Hides native header since HomeScreen renders its own custom header
+                }}
+              />
 
+              {__DEV__ ? (
+                <Stack.Screen
+                  name='dev'
+                  options={{
+                    headerShown: false, // Hides native header since HomeScreen renders its own custom header
+                  }}
+                />
+              ) : null}
+
+              <Stack.Screen
+                name='salat'
+                options={{
+                  headerShown: false, // Hides native header since HomeScreen renders its own custom header
+                }}
+              />
+              <Stack.Screen
+                name='counter-clicker'
+                options={{
+                  headerShown: false, // Hides native header since HomeScreen renders its own custom header
+                }}
+              />
+              <Stack.Screen
+                name='counter-day'
+                options={{
+                  headerShown: false, // Hides native header since HomeScreen renders its own custom header
+                }}
+              />
+              <Stack.Screen
+                name='modal'
+                options={{ presentation: "modal", title: "Modal" }}
+              />
+            </Stack>
+          </SafeAreaView>
+        </KeyboardProvider>
         <StatusBar style={isDark ? "light" : "dark"} />
       </QueryClientProvider>
     </SQLiteProvider>

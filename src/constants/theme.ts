@@ -3,24 +3,26 @@
 export interface IPalette {
   accent: string
 
-  bg: string
-  bg_canvas: string
-  bg_surface: string
-  bg_surfaceAlt: string
-  bg_surfaceMuted: string
+  bg_primary: string
+  bg_secondary: string
+  bg_tertiary: string
+  surface_floating: string
+  input_outer: string
 
-  fg: string
-  fg_surface: string
+  text_normal: string
+  text_muted: string
+  text_heading: string
+  text_link: string
 
   border: string
 
   icon: string
   icon_muted: string
 
-  success: string
-  warning: string
-  error: string
-  info: string
+  status_green: string
+  status_yellow: string
+  status_red: string
+  status_offline: string
 }
 
 export type ITheme = "ocean" | "light" | "sunset" | "forest"
@@ -29,99 +31,107 @@ export const palettes: Record<
   ITheme,
   { isDark: boolean; colors: Omit<IPalette, "accent"> }
 > = {
-  light: {
-    isDark: false,
-    colors: {
-      bg: "#F8FAFC",
-      bg_canvas: "#F8FAFC", // app background
-      bg_surface: "#FFFFFF", // main cards
-      bg_surfaceAlt: "#F1F5F9", // slightly elevated sections
-      bg_surfaceMuted: "#E2E8F0", // dividers / subtle blocks
-
-      fg: "#023047",
-      fg_surface: "#bdbfc4",
-
-      border: "#bdbfc4",
-
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
-
-      success: "#16A34A",
-      warning: "#D97706",
-      error: "#DC2626",
-      info: "#2563EB",
-    },
-  },
-
   ocean: {
     isDark: true,
     colors: {
-      bg: "#1C1C23",
-      bg_canvas: "#2C2D34",
-      bg_surface: "#323339",
-      bg_surfaceAlt: "#373A43",
-      bg_surfaceMuted: "#27272F",
+      bg_primary: "#313338",
+      bg_secondary: "#2B2D31",
+      bg_tertiary: "#1E1F22",
+      surface_floating: "#111214",
+      input_outer: "#383A40",
 
-      fg: "#d8d9dd",
-      fg_surface: "#bdbfc4",
+      text_normal: "#DBDEE1",
+      text_muted: "#949BA4",
+      text_heading: "#F2F3F5",
+      text_link: "#00A8FC",
 
-      border: "#bdbfc4",
+      border: "#3F4147",
 
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
+      icon: "#B5BAC1",
+      icon_muted: "#80848E",
 
-      success: "#22C55E",
-      warning: "#F59E0B",
-      error: "#EF4444",
-      info: "#3B82F6",
+      status_green: "#23A55A",
+      status_yellow: "#F0B232",
+      status_red: "#F23F43",
+      status_offline: "#80848E",
+    },
+  },
+
+  light: {
+    isDark: false,
+    colors: {
+      bg_primary: "#FFFFFF",
+      bg_secondary: "#F2F3F5",
+      bg_tertiary: "#E3E5E8",
+      surface_floating: "#FFFFFF",
+      input_outer: "#EBEDF0",
+
+      text_normal: "#313338",
+      text_muted: "#5C5E66",
+      text_heading: "#060607",
+      text_link: "#006CE5",
+
+      border: "#E3E5E8",
+
+      icon: "#4E5058",
+      icon_muted: "#80848E",
+
+      status_green: "#23A55A",
+      status_yellow: "#F0B232",
+      status_red: "#F23F43",
+      status_offline: "#80848E",
     },
   },
 
   forest: {
     isDark: true,
     colors: {
-      bg: "#2c2a42",
-      bg_canvas: "#36354d",
-      bg_surface: "#122018",
-      bg_surfaceAlt: "#1A2B20",
-      bg_surfaceMuted: "#223A2C",
+      bg_primary: "#1A2420",
+      bg_secondary: "#141C19",
+      bg_tertiary: "#0E1411",
+      surface_floating: "#0A0F0D",
+      input_outer: "#24302B",
 
-      fg: "#fafafa",
-      fg_surface: "#bdbfc4",
+      text_normal: "#E1E7E4",
+      text_muted: "#8A9A92",
+      text_heading: "#F0F4F2",
+      text_link: "#22D3EE",
 
-      border: "#bdbfc4",
+      border: "#293832",
 
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
+      icon: "#A3B5AC",
+      icon_muted: "#63736B",
 
-      success: "#22C55E",
-      warning: "#EAB308",
-      error: "#EF4444",
-      info: "#38BDF8",
+      status_green: "#23A55A",
+      status_yellow: "#F0B232",
+      status_red: "#F23F43",
+      status_offline: "#63736B",
     },
   },
 
   sunset: {
     isDark: false,
     colors: {
-      bg: "#FFF7ED",
-      bg_canvas: "#FFF7ED",
-      bg_surface: "#FFFFFF",
-      bg_surfaceAlt: "#FFEDD5",
-      bg_surfaceMuted: "#FED7AA",
+      bg_primary: "#FFFFFF",
+      bg_secondary: "#FFF7ED",
+      bg_tertiary: "#FFEDD5",
+      surface_floating: "#FFFFFF",
+      input_outer: "#FED7AA",
 
-      fg: "#2e2e2e",
-      fg_surface: "#bdbfc4",
+      text_normal: "#431407",
+      text_muted: "#9A3412",
+      text_heading: "#2A0A03",
+      text_link: "#C2410C",
 
-      border: "#bdbfc4",
+      border: "#FFEDD5",
 
-      icon: "#c7c8cd",
-      icon_muted: "#c6c7cc",
+      icon: "#9A3412",
+      icon_muted: "#C2410C",
 
-      success: "#16A34A",
-      warning: "#F59E0B",
-      error: "#DC2626",
-      info: "#EA580C",
+      status_green: "#23A55A",
+      status_yellow: "#F0B232",
+      status_red: "#F23F43",
+      status_offline: "#9A3412",
     },
   },
 } as const
@@ -131,33 +141,33 @@ export const palettes: Record<
 // #region Accents
 
 export const accents = {
-  red: {
-    light: "#e63946",
-    dark: "",
+  blurple: {
+    light: "#5865F2",
+    dark: "#5865F2",
   },
-  blue: {
-    light: "",
-    dark: "#4ad66d",
+  red: {
+    light: "#DA373C",
+    dark: "#F23F43",
   },
   pink: {
-    light: "#c9184a",
-    dark: "#ff758f",
+    light: "#E13570",
+    dark: "#EB459E",
   },
   purple: {
-    light: "#9d4edd",
-    dark: "#c77dff",
+    light: "#7B2CBF",
+    dark: "#9D4EDD",
   },
   green: {
-    light: "",
-    dark: "#2ec4b6",
+    light: "#23A55A",
+    dark: "#23A55A",
   },
   yellow: {
-    light: "#ffca3a",
-    dark: "#f9dc5c",
+    light: "#D97706",
+    dark: "#F0B232",
   },
   orange: {
-    light: "#ee6c4d",
-    dark: "",
+    light: "#E65100",
+    dark: "#F97316",
   },
 } as const
 

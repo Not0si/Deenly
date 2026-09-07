@@ -14,19 +14,32 @@ interface IProperties {
   colors: IPalette
 }
 
-const initialState: IProperties = {
-  theme: "ocean",
-  accentName: "yellow",
-  isDark: palettes.ocean.isDark,
-  colors: {
-    accent: accents.yellow.dark,
-    ...palettes.ocean.colors,
-  },
-}
-
 interface IMethods {
   onThemeChange: (theme: ITheme) => void
   onAccentChange: (accentName: IAccentColor) => void
+}
+
+const DEFAULT_THEME: ITheme = "ocean"
+const DEFAULT_ACCENT: IAccentColor = "green"
+
+const getPaletteColors = (
+  theme: ITheme,
+  accentName: IAccentColor
+): IPalette => {
+  const themePalette = palettes[theme]
+  const accentPalette = accents[accentName]
+
+  return {
+    accent: themePalette.isDark ? accentPalette.dark : accentPalette.light,
+    ...themePalette.colors,
+  }
+}
+
+const initialState: IProperties = {
+  theme: DEFAULT_THEME,
+  accentName: DEFAULT_ACCENT,
+  isDark: palettes[DEFAULT_THEME].isDark,
+  colors: getPaletteColors(DEFAULT_THEME, DEFAULT_ACCENT),
 }
 
 export const useTheme = create<IProperties & IMethods>((set, get) => ({
@@ -34,30 +47,18 @@ export const useTheme = create<IProperties & IMethods>((set, get) => ({
 
   onThemeChange: (theme) => {
     const currentAccentName = get().accentName
-    const themePalette = palettes[theme]
-    const accentPalette = accents[currentAccentName]
-
     set({
       theme,
-      isDark: themePalette.isDark,
-      colors: {
-        accent: themePalette.isDark ? accentPalette.dark : accentPalette.light,
-        ...themePalette.colors,
-      },
+      isDark: palettes[theme].isDark,
+      colors: getPaletteColors(theme, currentAccentName),
     })
   },
 
   onAccentChange: (accentName) => {
     const currentTheme = get().theme
-    const themePalette = palettes[currentTheme]
-    const accentPalette = accents[accentName]
-
     set({
       accentName,
-      colors: {
-        accent: themePalette.isDark ? accentPalette.dark : accentPalette.light,
-        ...themePalette.colors,
-      },
+      colors: getPaletteColors(currentTheme, accentName),
     })
   },
 }))
